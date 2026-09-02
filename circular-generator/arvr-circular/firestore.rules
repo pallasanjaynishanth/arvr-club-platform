@@ -1,0 +1,27 @@
+rules_version = '2';
+
+// NOTE: This is an internal prototype with no Firebase Authentication.
+// Access is scoped to only the collections the app actually uses, but is
+// otherwise open (no auth check) so the app functions without sign-in.
+// Before any public/production deployment, add a real access-control
+// mechanism (e.g. re-introduce Firebase Auth, an App Check, or a proxy).
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Event circulars — drafts, saved circulars, edit/duplicate/delete.
+    match /events/{eventId} {
+      allow read, write: if true;
+    }
+
+    // Year-scoped reference number counters (ARVR/YYYY/###).
+    // Writes only happen via a transaction when a circular is generated.
+    match /counters/{year} {
+      allow read, write: if true;
+    }
+
+    // Deny everything else by default.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

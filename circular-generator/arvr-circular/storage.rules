@@ -1,0 +1,22 @@
+rules_version = '2';
+
+// NOTE: This is an internal prototype with no Firebase Authentication.
+// Access is scoped to only the branding/ path the app actually uses, but is
+// otherwise open (no auth check) so logo uploads work without sign-in.
+// Before any public/production deployment, add a real access-control
+// mechanism (e.g. re-introduce Firebase Auth, an App Check, or a proxy).
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Club/university branding assets (logos).
+    match /branding/{fileName} {
+      allow read: if true;
+      allow write: if request.resource.size < 5 * 1024 * 1024
+                    && request.resource.contentType.matches('image/.*');
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
