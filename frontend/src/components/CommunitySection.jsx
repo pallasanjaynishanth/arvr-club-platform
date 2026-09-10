@@ -1,0 +1,3 @@
+import Section from './Section';
+const ACTIONS=['LEARN','BUILD','EXPERIMENT','COLLABORATE','CREATE'];
+export default function CommunitySection(){return <Section id="community" number="05" eyebrow="Community / Collective Intelligence" title="A community built to make." body="Every member brings a different background — design, engineering, art, research. What we share is a drive to make immersive ideas real."><div className="community-system" data-reveal><div className="community-center"><span>AR</span><strong>VR</strong><small>TOGETHER</small></div>{ACTIONS.map((a,i)=><div className={`community-node n${i+1}`} key={a}><i>{String(i+1).padStart(2,'0')}</i><span>{a}</span></div>)}<div className="community-lines" aria-hidden="true"/></div></Section>}
